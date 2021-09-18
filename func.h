@@ -4,15 +4,15 @@
 
 namespace func {
 
-    struct List{
+
+    struct Vector{
         int num; //номер элемента
-        double a; //число
-        List *next;
+        double value; //число
     };
 
     struct Line{
-        int n; //кол-во столбцов
-        struct List *head;
+        int count; //кол-во ненулевых элементов
+        Vector *elem;
     };
 
     template<class T>
@@ -23,10 +23,9 @@ namespace func {
         return 1;
     }
 
-    void output(const char *msg, struct Line *a, int m);
-    struct Line *input(int &rm);
+    void output(const char *msg, struct Line *a, int m, int n);
+    struct Line *input(int &rm1, int &rm2);
     struct Line *erase(struct Line *&lines, int m);
-    struct Line *sort(struct Line *line);
-    struct List *init(int num, double a);
+    struct Line *sort(struct Line *line, int m, int n);
 }
 #endif //LAB1_FUNC_H
