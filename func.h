@@ -4,14 +4,13 @@
 
 namespace func {
 
-
-    struct Vector{
+    struct Vector {
         int num; //номер элемента
         double value; //число
     };
 
-    struct Line{
-        int count; //кол-во ненулевых элементов
+    struct Line {
+        int count;
         Vector *elem;
     };
 
@@ -24,8 +23,13 @@ namespace func {
     }
 
     void output(const char *msg, struct Line *a, int m, int n);
+
     struct Line *input(int &rm1, int &rm2);
+
     struct Line *erase(struct Line *&lines, int m);
+
     struct Line *sort(struct Line *line, int m, int n);
+
+    void swap(struct Line &a, struct Line &b);
 }
 #endif //LAB1_FUNC_H

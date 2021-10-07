@@ -6,6 +6,7 @@ namespace func {
     struct Line *input(int &rm1, int &rm2) {
         const char *pr = "";
         struct Line *lines = nullptr;
+        double *buf = nullptr;
         int m, n;
         do {
             std::cout << pr << std::endl;
@@ -32,7 +33,13 @@ namespace func {
             return nullptr;
         }
 
-        auto *buf = new double[n];
+        try {
+            buf = new double[n];
+        }
+        catch (std::bad_alloc &ba) {
+            delete[] lines;
+            return nullptr;
+        }
 
         for (int i = 0; i < m; i++) {
             std::cout << "Enter items for matrix line #" << (i + 1) << ":" << std::endl;
@@ -81,7 +88,14 @@ namespace func {
             if (count == n) std::cout << "Were entered max amount of elements" << std::endl;
 
             lines[i].count = count;
-            lines[i].elem = new Vector[count];
+            try {
+                lines[i].elem = new Vector[count];
+            }
+            catch (std::bad_alloc &ba) {
+                delete[] buf;
+                erase(lines, m);
+                return nullptr;
+            }
             int j = 0;
             for (int k = 0; k < n; ++k) {
                 if (buf[k] != 0.0) {
@@ -121,10 +135,10 @@ namespace func {
         return nullptr;
     }
 
-    void swap(struct Line *a, struct Line *b) {
-        struct Line temp = *a;
-        *a = *b;
-        *b = temp;
+    void swap(struct Line &a, struct Line &b) {
+        struct Line temp = a;
+        a = b;
+        b = temp;
     }
 
     double get_first(struct Line *line) {
@@ -135,7 +149,7 @@ namespace func {
 
     struct Line *sort(struct Line *line, int m, int n) {
         int k;
-        if (get_first(&line[0]) <= 0) k = 1;
+        if (get_first(line) <= 0) k = 1;
         else k = 0;
 
         if (m < 2)
@@ -145,10 +159,10 @@ namespace func {
             for (int j = 0; j < m - i - 1; ++j) {
                 if (k == 1) {
                     if (get_first(&line[j + 1]) < get_first(&line[j]))
-                        swap(&line[j + 1], &line[j]);
+                        swap(line[j + 1], line[j]);
                 } else {
                     if (get_first(&line[j + 1]) > get_first(&line[j]))
-                        swap(&line[j + 1], &line[j]);
+                        swap(line[j + 1], line[j]);
                 }
             }
         }
